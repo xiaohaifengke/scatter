@@ -1,0 +1,18 @@
+{
+  "common_request_success": {
+    "code": "100000",
+    "message": "接口请求成功"
+  },
+  "common_valid_param": {
+    "code": "100002",
+    "message": "请求参数(%s)不支持"
+  },
+  "common_token_error": {
+    "code": "100003",
+    "message": "token无效"
+  },
+  "common_system_error": {
+    "code": "100004",
+    "message": "系统异常"
+  }
+}
