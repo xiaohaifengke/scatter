@@ -20,13 +20,13 @@ import java.util.List;
  * @data 2019/04/04
  * */
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api/v0/articles")
 public class BlogController {
 
     @Autowired
     private IContentService contentService;
 
-    @RequestMapping(value = "articles/search", method = RequestMethod.GET)
+    @RequestMapping(value = "search", method = RequestMethod.GET)
     public JSONArray articleList(HttpServletRequest request) {
         List<ContentVo> contentVoList = contentService.getContents(null, null);
         System.out.print(contentVoList);

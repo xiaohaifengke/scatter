@@ -1,6 +1,6 @@
 package com.xhfk.scatter.api.base;
 
-import com.xhfk.scatter.util.MessageUtils;
+import com.xhfk.scatter.utils.MessageUtils;
 
 /**
  * @ClassName ServiceResponse

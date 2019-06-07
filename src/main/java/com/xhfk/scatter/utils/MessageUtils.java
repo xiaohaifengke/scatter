@@ -1,4 +1,4 @@
-package com.xhfk.scatter.util;
+package com.xhfk.scatter.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 1. 全局配置系统对mapper接口扫描
  * 2. 也可以在每个mapper接口上加上@Mapper注解
  * */
-@MapperScan("com.xhfk.scatter.dao")
+@MapperScan({"com.xhfk.scatter.dao","com.xhfk.scatter.api.index.dao"})
 public class ScatterApplication {
 
 	public static void main(String[] args) {

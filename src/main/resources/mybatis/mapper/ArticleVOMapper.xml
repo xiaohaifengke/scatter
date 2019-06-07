@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhfk.scatter.api.index.dao.ArticleVOMapper">
+    <resultMap id="ArticleResultMap" type="com.xhfk.scatter.api.index.vo.ArticleVO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="summary" jdbcType="VARCHAR" property="summary"/>
+        <result column="create_date" property="createDate"/>
+        <result column="view_counts" jdbcType="INTEGER" property="viewCounts"/>
+        <result column="comment_counts" jdbcType="INTEGER" property="commentCounts"/>
+        <result column="weight" jdbcType="INTEGER" property="weight"/>
+        <association property="author" column="author_id" javaType="Author" resultMap="userResult"/>
+        <collection property="tags" javaType="ArrayList" ofType="Tag">
+            <id column="tag_id" jdbcType="INTEGER" property="id"/>
+            <id column="tagname" jdbcType="VARCHAR" property="tagname"/>
+            <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        </collection>
+    </resultMap>
+    <resultMap id="userResult" type="Author">
+        <id property="id" column="author_id"/>
+        <result property="account" column="account"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="mobilePhoneNumber" column="mobile_phone_number"/>
+        <result property="createDate" column="sign_time"/>
+    </resultMap>
+    <sql id="articleColumns">
+        ${article}.id, ${article}.title, ${article}.summary, ${article}.create_date,
+        ${article}.view_counts, ${article}.comment_counts, ${article}.weight
+    </sql>
+    <!--<sql id="authorColumns">
+        u.id author_id, u.account, u.password,
+         u.email, u.mobile_phone_number,
+    </sql>
+    <sql id="tagColumns">
+        t.id tag_id, t.tagname, t.avatar icon
+    </sql>-->
+    <!--<sql id="authorColumns">
+        ${author}.id author_id, ${author}.account, ${author}.password,
+         ${author}.email, ${author}.mobile_phone_number,
+    </sql>
+    <sql id="tagColumns">
+        ${tag}.id tag_id, ${tag}.tagname, ${tag}.avatar icon
+    </sql>-->
+    <!--select m.*, t.id tag_id, t.avatar, t.tagname, u.nickname from me_article m
+        left join sys_user u on u.id = m.author_id
+        left join me_article_tag mt on mt.article_id = m.id
+        left join me_tag t on t.id = mt.tag_id-->
+    <select id="listArticles" resultMap="ArticleResultMap">
+        select
+        a.*,
+        u.id author_id, u.account, u.password,
+        u.email, u.mobile_phone_number, u.create_date sign_time,
+        t.id tag_id, t.tagname, t.avatar icon
+        <!--<include refid="authorColumns">
+            <property name="author" value="u"/>
+        </include>
+        ,
+        <include refid="tagColumns">
+            <property name="tag" value="t"/>
+        </include>-->
+        from me_article a
+        left join sys_user u on u.id = a.author_id
+        left join me_article_tag mat on mat.article_id = a.id
+        left join me_tag t on t.id = mat.tag_id;
+        -- order by a.create_date desc;
+    </select>
+</mapper>
