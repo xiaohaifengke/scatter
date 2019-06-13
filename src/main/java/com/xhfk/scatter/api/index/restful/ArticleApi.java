@@ -20,10 +20,9 @@ public class ArticleApi {
     @Autowired
     private ArticleService articleService;
 
-    @RequestMapping(value = "search", method = RequestMethod.GET)
-    // public RestResponse<List<ArticleVO>> listArticles(HttpServletRequest request, @RequestBody PaginationRequestVO page) {
-    public RestResponse<List<ArticleVO>> listArticles(HttpServletRequest request) {
-        List<ArticleVO> articles = articleService.listArticles();
+    @RequestMapping(value = "search", method = RequestMethod.POST)
+    public RestResponse<List<ArticleVO>> listArticles(@RequestBody PaginationRequestVO page) {
+        List<ArticleVO> articles = articleService.listArticles(page);
         return RestResponse.success(articles);
     }
 }

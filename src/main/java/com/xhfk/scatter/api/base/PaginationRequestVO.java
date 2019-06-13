@@ -13,4 +13,20 @@ public class PaginationRequestVO {
      *当前页码，0为第一页
      */
     private int pageIndex = 0;
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getPageIndex() {
+        return pageIndex;
+    }
+
+    public void setPageIndex(int pageIndex) {
+        this.pageIndex = pageIndex;
+    }
 }

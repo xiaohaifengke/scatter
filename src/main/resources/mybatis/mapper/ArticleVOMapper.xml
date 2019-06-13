@@ -35,7 +35,13 @@
     <sql id="tagColumns">
         ${tag}.id tag_id, ${tag}.tagname, ${tag}.avatar icon
     </sql>
-    <select id="listArticles" resultMap="ArticleResultMap">
+    <!--
+    select m.*, t.id tag_id, t.avatar, t.tagname, u.nickname from me_article m
+        left join sys_user u on u.id = m.author_id
+        left join me_article_tag mt on mt.article_id = m.id
+        left join me_tag t on t.id = mt.tag_id
+    -->
+    <select id="listArticles" parameterType="PaginationRequest" resultMap="ArticleResultMap">
         select
         a.*,
         <include refid="authorColumns">
@@ -48,7 +54,8 @@
         from me_article a
         left join sys_user u on u.id = a.author_id
         left join me_article_tag mat on mat.article_id = a.id
-        left join me_tag t on t.id = mat.tag_id;
+        left join me_tag t on t.id = mat.tag_id
+        limit ${pageIndex}, ${pageSize};
         -- order by a.create_date desc;
     </select>
 </mapper>
