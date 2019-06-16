@@ -9,7 +9,6 @@ public class AuthorVO implements Serializable {
 
     private Integer id;
     private String account;
-    private String password;
     private String email;
     private String mobilePhoneNumber;
     private String createDate;
@@ -29,14 +28,6 @@ public class AuthorVO implements Serializable {
 
     public void setAccount(String account) {
         this.account = account;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {

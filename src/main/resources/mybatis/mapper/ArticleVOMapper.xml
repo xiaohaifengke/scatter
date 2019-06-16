@@ -19,7 +19,6 @@
     <resultMap id="userResult" type="Author">
         <id property="id" column="author_id"/>
         <result property="account" column="account"/>
-        <result property="password" column="password"/>
         <result property="email" column="email"/>
         <result property="mobilePhoneNumber" column="mobile_phone_number"/>
         <result property="createDate" column="sign_time"/>
@@ -29,7 +28,7 @@
         ${article}.view_counts, ${article}.comment_counts, ${article}.weight
     </sql>
     <sql id="authorColumns">
-        ${author}.id author_id, ${author}.account, ${author}.password,
+        ${author}.id author_id, ${author}.account,
          ${author}.email, ${author}.mobile_phone_number
     </sql>
     <sql id="tagColumns">
@@ -51,11 +50,10 @@
         <include refid="tagColumns">
             <property name="tag" value="t"/>
         </include>
-        from me_article a
+        from (SELECT * FROM me_article  LIMIT ${pageIndex}, ${pageSize}) a
         left join sys_user u on u.id = a.author_id
         left join me_article_tag mat on mat.article_id = a.id
-        left join me_tag t on t.id = mat.tag_id
-        limit ${pageIndex}, ${pageSize};
+        left join me_tag t on t.id = mat.tag_id;
         -- order by a.create_date desc;
     </select>
 </mapper>
