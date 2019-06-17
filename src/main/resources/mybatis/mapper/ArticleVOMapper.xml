@@ -9,19 +9,35 @@
         <result column="view_counts" jdbcType="INTEGER" property="viewCounts"/>
         <result column="comment_counts" jdbcType="INTEGER" property="commentCounts"/>
         <result column="weight" jdbcType="INTEGER" property="weight"/>
-        <association property="author" column="author_id" javaType="Author" resultMap="userResult"/>
+        <association property="author" javaType="Author" resultMap="authorResult"/>
         <collection property="tags" javaType="ArrayList" ofType="Tag">
             <id column="tag_id" jdbcType="INTEGER" property="id"/>
             <id column="tagname" jdbcType="VARCHAR" property="tagname"/>
             <result column="icon" jdbcType="VARCHAR" property="icon"/>
         </collection>
     </resultMap>
-    <resultMap id="userResult" type="Author">
+    <resultMap id="ArticleResultMapByPageHelper" type="com.xhfk.scatter.api.index.vo.ArticleVO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="summary" jdbcType="VARCHAR" property="summary"/>
+        <result column="create_date" property="createDate"/>
+        <result column="view_counts" jdbcType="INTEGER" property="viewCounts"/>
+        <result column="comment_counts" jdbcType="INTEGER" property="commentCounts"/>
+        <result column="weight" jdbcType="INTEGER" property="weight"/>
+        <association property="author" column="{authorId=author_id}" javaType="Author" select="selectAuthor"/>
+        <collection property="tags" column="{id=id}" javaType="ArrayList" ofType="Tag" select="selectTags"/>
+    </resultMap>
+    <resultMap id="authorResult" type="Author">
         <id property="id" column="author_id"/>
         <result property="account" column="account"/>
         <result property="email" column="email"/>
         <result property="mobilePhoneNumber" column="mobile_phone_number"/>
         <result property="createDate" column="sign_time"/>
+    </resultMap>
+    <resultMap id="tagsResult" type="Tag">
+        <id column="tag_id" jdbcType="INTEGER" property="id"/>
+        <id column="tagname" jdbcType="VARCHAR" property="tagname"/>
+        <result column="avatar" jdbcType="VARCHAR" property="icon"/>
     </resultMap>
     <sql id="articleColumns">
         ${article}.id, ${article}.title, ${article}.summary, ${article}.create_date,
@@ -50,10 +66,26 @@
         <include refid="tagColumns">
             <property name="tag" value="t"/>
         </include>
-        from (SELECT * FROM me_article  LIMIT ${pageIndex}, ${pageSize}) a
+        from (SELECT * FROM me_article LIMIT #{pageIndex}, #{pageSize}) a
         left join sys_user u on u.id = a.author_id
         left join me_article_tag mat on mat.article_id = a.id
         left join me_tag t on t.id = mat.tag_id;
         -- order by a.create_date desc;
+    </select>
+
+    <select id="listArticlesByPageHelper" resultMap="ArticleResultMapByPageHelper">
+        select *
+        from me_article
+        order by create_date desc
+    </select>
+
+    <select id="selectAuthor" resultType="Author">
+      SELECT * FROM sys_user WHERE id = #{authorId}
+    </select>
+
+    <select id="selectTags" resultMap="tagsResult">
+        SELECT * FROM me_article_tag
+        LEFT JOIN me_tag ON me_article_tag.tag_id = me_tag.id
+        WHERE article_id = #{id}
     </select>
 </mapper>

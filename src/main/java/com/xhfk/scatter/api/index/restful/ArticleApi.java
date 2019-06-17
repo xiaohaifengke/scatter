@@ -1,6 +1,8 @@
 package com.xhfk.scatter.api.index.restful;
 
+import com.github.pagehelper.PageInfo;
 import com.xhfk.scatter.api.base.PaginationRequestVO;
+import com.xhfk.scatter.api.base.PaginationResponseVO;
 import com.xhfk.scatter.api.index.service.ArticleService;
 import com.xhfk.scatter.api.index.vo.ArticleVO;
 import com.xhfk.scatter.domain.RestResponse;
@@ -21,8 +23,10 @@ public class ArticleApi {
     private ArticleService articleService;
 
     @RequestMapping(value = "search", method = RequestMethod.POST)
-    public RestResponse<List<ArticleVO>> listArticles(@RequestBody PaginationRequestVO page) {
-        List<ArticleVO> articles = articleService.listArticles(page);
-        return RestResponse.success(articles);
+    public RestResponse<PaginationResponseVO<ArticleVO>> listArticles(@RequestBody PaginationRequestVO page) {
+        PageInfo<ArticleVO> pageInfo = articleService.listArticles(page);
+        List<ArticleVO> list = pageInfo.getList();
+        PaginationResponseVO<ArticleVO> articleResult = new PaginationResponseVO((int) pageInfo.getTotal(), list);
+        return RestResponse.success(articleResult);
     }
 }

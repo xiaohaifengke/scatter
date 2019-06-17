@@ -1,5 +1,7 @@
 package com.xhfk.scatter.api.index.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xhfk.scatter.api.base.PaginationRequestVO;
 import com.xhfk.scatter.api.index.dao.ArticleVOMapper;
 import com.xhfk.scatter.api.index.vo.ArticleVO;
@@ -15,10 +17,13 @@ public class ArticleService {
     private ArticleVOMapper articleVOMapper;
 
     public List<ArticleVO> listArticles() {
-        return articleVOMapper.listArticles();
+        return articleVOMapper.listArticlesByPageHelper();
     }
 
-    public List<ArticleVO> listArticles(PaginationRequestVO page) {
-        return articleVOMapper.listArticles(page);
+
+    public PageInfo<ArticleVO> listArticles(PaginationRequestVO page) {
+        PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+        List<ArticleVO> articles =  articleVOMapper.listArticlesByPageHelper();
+        return new PageInfo<>(articles);
     }
 }

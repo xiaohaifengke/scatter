@@ -12,5 +12,10 @@ public interface ArticleVOMapper {
      * 获取文章列表
      */
     List<ArticleVO> listArticles();
+
     List<ArticleVO> listArticles(PaginationRequestVO page);
+
+    List<ArticleVO> listArticlesByPageHelper();
+
+    List<ArticleVO> listArticlesByPageHelper(PaginationRequestVO page);
 }
