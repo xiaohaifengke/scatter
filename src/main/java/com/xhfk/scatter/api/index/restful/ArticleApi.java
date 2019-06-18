@@ -7,10 +7,7 @@ import com.xhfk.scatter.api.index.service.ArticleService;
 import com.xhfk.scatter.api.index.vo.ArticleVO;
 import com.xhfk.scatter.domain.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -22,9 +19,17 @@ public class ArticleApi {
     @Autowired
     private ArticleService articleService;
 
+    @RequestMapping(value = "search", method = RequestMethod.GET)
+    public RestResponse<PaginationResponseVO<ArticleVO>> listArticles(@RequestParam int pageIndex, @RequestParam int pageSize) {
+        PaginationRequestVO pageParams = new PaginationRequestVO(pageIndex, pageSize);
+        List<ArticleVO> list = articleService.listArticles(pageParams);
+        PaginationResponseVO<ArticleVO> articleResult = new PaginationResponseVO(0, list);
+        return RestResponse.success(articleResult);
+    }
+
     @RequestMapping(value = "search", method = RequestMethod.POST)
-    public RestResponse<PaginationResponseVO<ArticleVO>> listArticles(@RequestBody PaginationRequestVO page) {
-        PageInfo<ArticleVO> pageInfo = articleService.listArticles(page);
+    public RestResponse<PaginationResponseVO<ArticleVO>> listArticlesByPageHelper(@RequestBody PaginationRequestVO page) {
+        PageInfo<ArticleVO> pageInfo = articleService.listArticlesByPageHelper(page);
         List<ArticleVO> list = pageInfo.getList();
         PaginationResponseVO<ArticleVO> articleResult = new PaginationResponseVO((int) pageInfo.getTotal(), list);
         return RestResponse.success(articleResult);

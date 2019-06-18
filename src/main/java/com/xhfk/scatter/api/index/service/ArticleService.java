@@ -17,11 +17,21 @@ public class ArticleService {
     private ArticleVOMapper articleVOMapper;
 
     public List<ArticleVO> listArticles() {
+        return articleVOMapper.listArticles();
+    }
+
+
+    public List<ArticleVO> listArticles(PaginationRequestVO page) {
+        List<ArticleVO> articles =  articleVOMapper.listArticles(page);
+        return articles;
+    }
+
+    public List<ArticleVO> listArticlesByPageHelper() {
         return articleVOMapper.listArticlesByPageHelper();
     }
 
 
-    public PageInfo<ArticleVO> listArticles(PaginationRequestVO page) {
+    public PageInfo<ArticleVO> listArticlesByPageHelper(PaginationRequestVO page) {
         PageHelper.startPage(page.getPageIndex(), page.getPageSize());
         List<ArticleVO> articles =  articleVOMapper.listArticlesByPageHelper();
         return new PageInfo<>(articles);

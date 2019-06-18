@@ -16,6 +16,4 @@ public interface ArticleVOMapper {
     List<ArticleVO> listArticles(PaginationRequestVO page);
 
     List<ArticleVO> listArticlesByPageHelper();
-
-    List<ArticleVO> listArticlesByPageHelper(PaginationRequestVO page);
 }

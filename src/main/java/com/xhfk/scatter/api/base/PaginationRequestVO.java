@@ -14,6 +14,11 @@ public class PaginationRequestVO {
      */
     private int pageIndex = 0;
 
+    public PaginationRequestVO (int pageIndex, int pageSize) {
+        this.pageIndex = pageIndex;
+        this.pageSize = pageSize;
+    }
+
     public int getPageSize() {
         return pageSize;
     }
