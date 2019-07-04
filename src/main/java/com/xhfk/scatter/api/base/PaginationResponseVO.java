@@ -16,27 +16,27 @@ public class PaginationResponseVO<T> {
     @ApiModelProperty(example = "20", value = "返回总记录数")
     private int totalCount;
     @ApiModelProperty(value = "返回结果", required = true)
-    private List<T> datas;
+    private List<T> list;
 
-    public PaginationResponseVO(List<T> datas) {
-        this.datas = datas;
+    public PaginationResponseVO(List<T> list) {
+        this.list = list;
     }
 
-    public PaginationResponseVO(int perPage, int pageNum, List<T> datas) {
+    public PaginationResponseVO(int perPage, int pageNum, List<T> list) {
         this.perPage = perPage;
         this.pageNum = pageNum;
-        this.datas = datas;
+        this.list = list;
     }
 
-    public PaginationResponseVO(int perPage, int pageNum, int totalCount, List<T> datas) {
+    public PaginationResponseVO(int perPage, int pageNum, int totalCount, List<T> list) {
         this.perPage = perPage;
         this.pageNum = pageNum;
         this.totalCount = totalCount;
-        this.datas = datas;
+        this.list = list;
     }
 
-    public PaginationResponseVO(int totalCount, List<T> datas) {
+    public PaginationResponseVO(int totalCount, List<T> list) {
         this.totalCount = totalCount;
-        this.datas = datas;
+        this.list = list;
     }
 }
